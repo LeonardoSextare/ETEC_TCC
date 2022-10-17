@@ -1,0 +1,8 @@
+{
+    "configuration": "cpu=atmega2560",
+    "board": "arduino:avr:mega",
+    "output": "C:/Users/Leonardo/Documents/Arduino/ArduinoOutput",
+    "programmer": "arduino:avrispmkii",
+    "port": "COM5",
+    "sketch": "0_Codigo_TCC.ino"
+}
