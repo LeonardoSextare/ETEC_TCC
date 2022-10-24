@@ -29,7 +29,10 @@ void telaCaixa(int atendimento) {
     tft.setCursor(65, 150);
     tft.println("Balcao 01");
 
-    delay(10000);
+
+    btSerial.write("1Alert");
+
+    delay(1000);
     menuPrincipal();
     page = "menuPrincipal";
   }
@@ -44,7 +47,8 @@ void telaCaixa(int atendimento) {
     tft.println("Prossiga para");
     tft.setCursor(65, 300);
     tft.println("Balcao 02");
-    delay(10000);
+    btSerial.write("BAlerta");
+    delay(1000);
     page = "menuPrincipal";
     menuPrincipal();
   }
@@ -62,6 +66,7 @@ void telaCaixa(int atendimento) {
     tft.setCursor(10, 350);
     tft.setTextSize(2);
     tft.println(produto[nProduto]);
+    btSerial.write("CAlerta");
     delay(10000);
     page = "menuPrincipal";
     menuPrincipal();
@@ -83,6 +88,7 @@ void telaCaixa(int atendimento) {
     tft.println(equipamento);
     tft.setCursor(65, 220);
     tft.println(funcionamento);
+    btSerial.write("DAlerta");
     delay(10000);
     page = "menuPrincipal";
     menuPrincipal();
