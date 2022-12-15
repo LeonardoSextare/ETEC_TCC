@@ -1,15 +1,15 @@
 // Desenha os Botões e Escrita
-void menu_Impressora()
+void menu_AssistenciaPC()
 {
-  tft.fillRoundRect(0, 71, 320, 410, 0, WHITE);
+  tft.fillRoundRect(0, 70, 320, 410, 0, WHITE);
 
   // Meu Computador
 
   tft.fillRoundRect(0, 70, 320, 35, 0, BLACK);
   tft.setTextSize(3);
   tft.setTextColor(WHITE);
-  tft.setCursor(5, 75);
-  tft.println("Minha impressora:");
+  tft.setCursor(20, 75);
+  tft.println("Meu computador:");
 
   // Está ligando normalmente
   tft.fillRoundRect(20, 115, 278, 100, 10, RED);
@@ -18,9 +18,9 @@ void menu_Impressora()
   tft.setTextSize(3);
   tft.setTextColor(WHITE);
   tft.setCursor(50, 138);
-  tft.println("Liga mas nao");
-  tft.setCursor(90, 168);
-  tft.println("Imprime");
+  tft.println("Esta Ligando");
+  tft.setCursor(62, 168);
+  tft.println("Normalmente");
 
   // Não liga e nem faz barulho
   tft.fillRoundRect(20, 235, 278, 100, 10, RED);
@@ -28,8 +28,10 @@ void menu_Impressora()
 
   tft.setTextSize(3);
   tft.setTextColor(WHITE);
-  tft.setCursor(85, 270);
-  tft.println("Nao liga");
+  tft.setCursor(55, 255);
+  tft.println("Liga mas nao");
+  tft.setCursor(36, 285);
+  tft.println("Aparece a Tela");
 
   // Liga mas não aparece a tela
   tft.fillRoundRect(20, 365, 278, 100, 10, RED);
@@ -37,14 +39,14 @@ void menu_Impressora()
 
   tft.setTextSize(3);
   tft.setTextColor(WHITE);
-  tft.setCursor(70, 390);
-  tft.println("Manutencao");
-  tft.setCursor(70, 420);
-  tft.println("Preventiva");
+  tft.setCursor(55, 380);
+  tft.println("Nao Liga nem");
+  tft.setCursor(65, 410);
+  tft.println("Faz barulho");
 }
 
 // Efeito e função do clique dos botões
-void btn_Impressora(int caso)
+void btn_assistenciaPC(int caso)
 {
   switch (caso)
   {
@@ -56,11 +58,11 @@ void btn_Impressora(int caso)
     tft.setTextSize(3);
     tft.setTextColor(BLACK);
     tft.setCursor(50, 138);
-    tft.println("Liga mas nao");
-    tft.setCursor(90, 168);
-    tft.println("Imprime");
-    menu = "menu_ImpressoraLiga";
-    menu_ImpressoraLiga();
+    tft.println("Esta Ligando");
+    tft.setCursor(62, 168);
+    tft.println("Normalmente");
+    menu = "menu_PcFunciona";
+    menu_PcFunciona();
     break;
 
   // Não liga e nem faz barulho
@@ -69,10 +71,12 @@ void btn_Impressora(int caso)
 
     tft.setTextSize(3);
     tft.setTextColor(BLACK);
-    tft.setCursor(85, 270);
-    tft.println("Nao liga");
-    menu = "menu_ImpressoraNLiga";
-    menu_ImpressoraNLiga();
+    tft.setCursor(55, 255);
+    tft.println("Liga mas nao");
+    tft.setCursor(36, 285);
+    tft.println("Aparece a Tela");
+    menu = "menu_PcFunciona";
+    menu_PcLigando();
 
     break;
 
@@ -82,11 +86,12 @@ void btn_Impressora(int caso)
 
     tft.setTextSize(3);
     tft.setTextColor(BLACK);
-    tft.setCursor(70, 390);
-    tft.println("Manutencao");
-    tft.setCursor(70, 420);
-    tft.println("Preventiva");
-    tela_Chamado(4);
+    tft.setCursor(55, 380);
+    tft.println("Nao liga nem");
+    tft.setCursor(65, 410);
+    tft.println("Faz barulho");
+    menu = "menu_PcFunciona";
+    menu_PcNaoLigaBarulho();
     break;
   }
 }

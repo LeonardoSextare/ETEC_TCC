@@ -1,122 +1,145 @@
-// INCLUSÃO DE BIBLIOTECAS
-#include <TouchScreen.h>         // Tela Touch
-#include <MCUFRIEND_kbv.h>       // Tela Touch
-MCUFRIEND_kbv tft;               // Tela Touch
-#include "SoftwareSerial.h"      // Modulo de Som
-#include "DFRobotDFPlayerMini.h" // Modulo de Som
-#include <NewPing.h>             // Modulo Ultra Sonico
-#include <SPI.h>                 // Leitor do Cartão da Tela
-#include <SdFat.h>               // Leitor do Cartão da Tela
+// Bibliotecas Globais
+#include "SoftwareSerial.h"
 
-// DEFINIÇÕES TELA (PINOS)
+// Variaveis Globais
+String menu = "menu_Index";
+int distancia, chegada = 0;
+
+// Bibliotecas e Parametros do Sensor Ultrassonico
+#include <NewPing.h>
+
+#define trig_pin 22
+#define echo_pin 23
+#define max_dist 500
+NewPing sonar(trig_pin, echo_pin, max_dist);
+
+// Bibliotecas e Parametros do Modulo MP3
+#include "DFRobotDFPlayerMini.h"
+
+#define pinRx 50
+#define pinTx 51
+#define volumeMP3 25
+#define DEBUG
+SoftwareSerial playerMP3Serial(pinRx, pinTx);
+DFRobotDFPlayerMini playerMP3;
+
+// Bibliotecas e Parametros da Tela Touch
+#include <TouchScreen.h>
+#include <MCUFRIEND_kbv.h>
+MCUFRIEND_kbv tft;
+
 #define LCD_CS A3
 #define LCD_CD A2
 #define LCD_WR A1
 #define LCD_RD A0
 #define LCD_RESET A4
 
-// DEFINIÇÕES DA TELA
-#define LIGADO 0x07E0
-#define DESLIGADO 0xF800
 #define MINPRESSURE 10
 #define MAXPRESSURE 1000
 
-// DEFINIÇÕES LEITOR CARTÃO TELA
-#define USE_SDFAT
-SoftSpiDriver<12, 11, 13> softSpi;
-SdFat SD;
-#define SD_CS SdSpiConfig(10, DEDICATED_SPI, SD_SCK_MHZ(0), &softSpi)
-#define BMPIMAGEOFFSET 54
-#define BUFFPIXEL 1
-#define NAMEMATCH ""
-#define PALETTEDEPTH 16
-char namebuf[32] = "/";
-File root;
-int pathlen;
-
-// DEFINIÇÕES DE CORES
 #define USE_MEGA_8BIT_SHIELD
 #define WHITE 0xFFFF
 #define YELLOW 0xFFE0
 #define RED 0xF800
 #define BLUE 0x001F
 #define BLACK 0x0000
+#define CINZA 0x7BEF
+#define FUNDO 0x4229
+#define BOTAO 0x18C3
+#define BORDA 0xFFFF
 
-// CALIBRAÇÃO TOUCH
-#define YP A2
-#define XM A3
-#define YM 8
-#define XP 9
-#define TS_LEFT 119
-#define TS_RT 921
-#define TS_TOP 68
-#define TS_BOT 968
+#define YP A1
+#define XM A2
+#define YM 7
+#define XP 6
+#define TS_LEFT 944
+#define TS_RT 147
+#define TS_TOP 968
+#define TS_BOT 147
 
-// MODULO MP3
-#define pinRx 37
-#define pinTx 38
-#define volumeMP3 10
-#define DEBUG
-SoftwareSerial playerMP3Serial(pinRx, pinTx);
-DFRobotDFPlayerMini playerMP3;
+// Bibliotecas e Parametros do Leitor da Tela Touch
 
-// MODULO BLUETOOTH
-#define btRX 52
-#define btTX 53
-SoftwareSerial btSerial(btRX, btTX);
+#include <SPI.h>
+#include <SdFat.h>
 
-// MODULO ULTRA SOM
-#define trig_pin 31
-#define echo_pin 50
-#define max_dist 200
-NewPing sonar(trig_pin, echo_pin, max_dist);
+#define USE_SDFAT
+SoftSpiDriver<12, 11, 13> softSpi;
+SdFat SD;
+#define SD_CS SdSpiConfig(10, DEDICATED_SPI, SD_SCK_MHZ(0), &softSpi)
+#define BMPIMAGEOFFSET 54
+#define BUFFPIXEL 6
+#define NAMEMATCH ""
+#define PALETTEDEPTH 16
+char namebuf[32] = "/";
+File root;
+int pathlen;
 
-// VARIAVEIS GLOBAIS
-String page = "menuPrincipal";
-unsigned long int tempo;
-char *produto[] = {"", "Mouse Multilaser - Classic MO300", "Mouse Redragon - Cobra", "Mouse Logitech - G910 PRO", "Teclado Logitech - K120", "Teclado Redragon - K607", "Teclado HyperX - Alloy Origins", "Headset Fortrek - HBL-101", "Headset Astro - A10", "Headset HyperX - Cloud Mix", "PC X-Linne - Intel Core i3", "PC Lenovo - Intel Core i5", "PC Dell - Intel Core i7", "Notebook Asus - M515", "Note Lenovo - Legion 5", "Notebook Dell - Alienware", "Monte seu Computador"};
-String assistencia, equipamento, funcionamento, windows, lentidao, desligando, barulho, monitor;
-
-int distancia, nProduto, clique = 1000;
-
-// CALCULO X E Y DA TELA TOUCH
+// Função de Calculo da Tela Touch
 int X, Y;
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300); // 300 É A SENSITIVIDADE
 TSPoint waitTouch()
 {
+
     TSPoint p;
     do
     {
+        sonar.ping_cm();
+        if (sonar.ping_cm() > 0){
+            distancia = sonar.ping_cm();}
+
+        Serial.print("Distancia:");
+        Serial.println(distancia);
+
+        while (chegada == 2)
+        {
+            distancia = sonar.ping_cm();
+            if (distancia > 80)
+            {
+                chegada = 0;
+                menu_Index();
+            }
+        }
+
+        if (distancia > 2 && distancia < 30 && chegada == 0)
+        {
+            playerMP3.playFolder(1, 5);
+            delay(3000);
+            playerMP3.playFolder(1, 10);
+            chegada = 1;
+        }
+        else if (distancia > 80 && chegada == 1)
+        {
+            playerMP3.playFolder(1, 12);
+            tela_Chamado(5);
+            delay(5000);
+            menu = "menu_Index";
+            menu_Index();
+            chegada = 0;
+        }
+
         p = ts.getPoint();
         pinMode(XM, OUTPUT);
         pinMode(YP, OUTPUT);
 
-        sonar.ping_cm();
-        distancia = sonar.ping_cm();
-
-        while (btSerial.available() > 0)
-        {
-            btRead(btSerial.read());
-            Serial.println(btSerial.read());
-        }
-
     } while ((p.z < MINPRESSURE) || (p.z > MAXPRESSURE));
 
-    p.x = map(p.x, TS_LEFT, TS_RT, 0, 280);
-    p.y = map(p.y, TS_BOT, TS_TOP, 0, 320);
+    p.x = map(p.x, TS_LEFT, TS_RT, 320, 0);
+    p.y = map(p.y, TS_BOT, TS_TOP, 0, 480);
 
     return p;
 }
 
 void setup()
 {
-    uint16_t ID;
     Serial.begin(9600);
-    btSerial.begin(9600);
+    playerMP3Serial.begin(9600);
     tft.reset();
-    tft.begin(0x9488); // CÓDIGO DO DRIVER DO DISPLAY
+    tft.begin(0x9486); // CÓDIGO DO DRIVER DO DISPLAY
     tft.setRotation(2);
 
+    uint16_t ID;
+
+    // Teste Cartão SD Tela Touch
     bool good = SD.begin(SD_CS);
     if (!good)
     {
@@ -127,9 +150,25 @@ void setup()
     root = SD.open(namebuf);
     pathlen = strlen(namebuf);
 
-    Intro();
+    // Teste Cartão SD MP3
+    if (!playerMP3.begin(playerMP3Serial))
+    {
+        Serial.println(F("Falha no Modulo MP3"));
+        Serial.println(F("1.Confira as conexões!"));
+        Serial.println(F("2.Confira o cartão SD!"));
+        while (true)
+        {
+            delay(0);
+        }
+    }
 
-    menuPrincipal();
+#ifdef DEBUG
+    Serial.println("Fim Setup");
+#endif
+    playerMP3.volume(volumeMP3);
+
+    Intro();
+    menu_Index();
 }
 
 void loop()
@@ -138,83 +177,13 @@ void loop()
     X = p.x;
     Y = p.y;
 
-    sonar.ping_cm();
-    distancia = sonar.ping_cm();
-    btRead(btSerial.read());
-    Serial.println(distancia);
+    Serial.print("X: ");
+    Serial.print(X);
+    Serial.print(" Y: ");
+    Serial.println(Y);
 
     Touch();
-
-    Serial.println("teste");
-    delay(50); // Delay
-}
-
-void Intro()
-{
-    tft.fillScreen(BLACK);
-    tft.setTextSize(3);
-    tft.setCursor(40, 30);
-    tft.setTextColor(RED);
-    tft.println("Projeto - TCC");
-
-    tft.setCursor(60, 80);
-    tft.setTextColor(WHITE);
-    tft.println("Integrantes");
-
-    tft.setCursor(15, 120);
-    tft.println("Leonardo Sextare");
-
-    tft.setCursor(15, 150);
-    tft.println("Plinio Chagas");
-
-    tft.setCursor(15, 180);
-    tft.println("Vinicius Dias");
-
-    delay(2000);
-
-    // TechNone Informatica
-    tft.fillRoundRect(0, 0, 320, 70, 0, RED);
-    tft.fillRoundRect(3, 3, 314, 64, 0, BLUE);
-
-    tft.setTextSize(3);
-    tft.setTextColor(WHITE);
-    tft.setCursor(90, 10);
-    tft.println("TechNone");
-    tft.setCursor(65, 37);
-    tft.println("Informatica");
-}
-void btRead(byte alerta)
-{
-
-    switch (alerta)
-    {
-    case 1: // Falar
-        tft.setTextColor(RED);
-        tft.setTextSize(4);
-        tft.setCursor(15, 120);
-        tft.println("Teste");
-        delay(1000);
-        menuPrincipal();
-        break;
-
-        case 2: // Falar
-        tft.setTextColor(RED);
-        tft.setTextSize(4);
-        tft.setCursor(15, 120);
-        tft.println("Conectado");
-        delay (1000);
-        menuPrincipal();
-        break;
-
-        case 3: // Falar
-        tft.setTextColor(RED);
-        tft.setTextSize(4);
-        tft.setCursor(15, 120);
-        tft.println("Desconectado");
-        delay (1000);
-        menuPrincipal();
-        break;
-    }
+    delay(50);
 }
 
 // Codigos para carregar imagens na tela
@@ -232,7 +201,7 @@ uint32_t read32(File &f)
     return result;
 }
 
-uint8_t showBMP(char *nm, int x, int y)
+uint8_t showbmp(char *nm, int x, int y)
 {
     File bmpFile;
     int bmpWidth, bmpHeight;         // W+H in pixels

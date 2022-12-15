@@ -1,5 +1,5 @@
 // Desenha os Botões e Escrita
-void menuImpressoraNLiga()
+void menu_ImpressoraNLiga()
 {
   tft.fillRoundRect(0, 70, 320, 410, 0, WHITE);
 
@@ -86,7 +86,7 @@ void menuImpressoraNLiga()
 }
 
 // Efeito e função do clique dos botões
-void btnImpressoraNLiga(int caso)
+void btn_ImpressoraNLiga(int caso)
 {
   switch (caso)
   {
@@ -200,6 +200,7 @@ void btnImpressoraNLiga(int caso)
     tft.println("Solicitar");
     tft.setCursor(55, 430);
     tft.println("Assistencia");
+    tela_Chamado(4);
 
     break;
 
@@ -207,8 +208,8 @@ void btnImpressoraNLiga(int caso)
   case 8:
     tft.fillTriangle(10, 35, 50, 15, 50, 55, WHITE);
     tft.fillTriangle(15, 35, 47, 19, 47, 51, BLACK);
-    page = "menuImpressora";
-    menuImpressora();
+    menu = "menu_Impressora";
+    menu_Impressora();
     break;
   }
 }

@@ -1,9 +1,11 @@
-void menuTeclado()
+void menu_Teclado()
 {
   tft.fillRoundRect(0, 70, 320, 410, 0, WHITE);
 
+  playerMP3.playFolder(1,11);
+
   // Teclado 1
-  showBMP("tecladoLogitech.bmp", 15, 95);
+  showbmp("tecladoLogitech.bmp", 15, 95);
   tft.fillRoundRect(137, 92, 167, 112, 0, RED);
   tft.fillRoundRect(140, 95, 161, 106, 0, BLACK);
   tft.setTextSize(2);
@@ -18,7 +20,7 @@ void menuTeclado()
   tft.println("R$65,00");
 
   // Teclado 2
-  showBMP("tecladoRedragon.bmp", 15, 220);
+  showbmp("tecladoRedragon.bmp", 15, 220);
   tft.fillRoundRect(137, 217, 167, 112, 0, RED);
   tft.fillRoundRect(140, 220, 161, 106, 0, BLACK);
   tft.setTextSize(2);
@@ -33,7 +35,7 @@ void menuTeclado()
   tft.println("R$219,99");
 
   // Teclado 3
-  showBMP("tecladoHyperx.bmp", 15, 345);
+  showbmp("tecladoHyperx.bmp", 15, 345);
   tft.fillRoundRect(137, 342, 167, 112, 0, RED);
   tft.fillRoundRect(140, 345, 161, 106, 0, BLACK);
   tft.setTextSize(2);
@@ -47,7 +49,7 @@ void menuTeclado()
   tft.setCursor(175, 435);
   tft.println("R$479,99");
 }
-void btnTeclado(int caso)
+void btn_Teclado(int caso)
 {
   switch (caso)
   {
@@ -65,8 +67,7 @@ void btnTeclado(int caso)
     tft.println("Membrana");
     tft.setCursor(180, 185);
     tft.println("R$65,00");
-    nProduto = 4;
-    telaCaixa(3);
+    tela_Chamado(3);
     break;
 
   // Teclado 2
@@ -82,8 +83,7 @@ void btnTeclado(int caso)
     tft.println("Mecanico");
     tft.setCursor(175, 310);
     tft.println("R$219,99");
-    nProduto = 5;
-    telaCaixa(3);
+    tela_Chamado(3);
     break;
 
   // Teclado 3
@@ -101,8 +101,7 @@ void btnTeclado(int caso)
     tft.println("Mecanico");
     tft.setCursor(175, 435);
     tft.println("R$479,99");
-    nProduto = 6;
-    telaCaixa(3);
+    tela_Chamado(3);
     break;
   }
 }

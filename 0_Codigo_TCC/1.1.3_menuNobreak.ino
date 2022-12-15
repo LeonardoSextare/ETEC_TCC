@@ -1,5 +1,5 @@
 // Desenha os Botões e Escrita
-void menuNobreak()
+void menu_Nobreak()
 {
   tft.fillRoundRect(0, 70, 320, 410, 0, WHITE);
 
@@ -17,11 +17,8 @@ void menuNobreak()
 
   tft.setTextSize(3);
   tft.setTextColor(WHITE);
-  tft.setCursor(75, 138);
-  tft.println("Nao Segura");
-  tft.setTextSize(2);
-  tft.setCursor(30, 168);
-  tft.println("Quedas de Energia");
+  tft.setCursor(55, 155);
+  tft.println("Nao Funciona");
 
   // Não liga e nem faz barulho
   tft.fillRoundRect(20, 235, 278, 100, 10, RED);
@@ -45,24 +42,24 @@ void menuNobreak()
 }
 
 // Efeito e função do clique dos botões
-void btnNobreak(int caso)
+void btn_Nobreak(int caso)
 {
   switch (caso)
   {
 
-  // Está ligando normalmente
+  // Está desligando
   case 1:
     tft.fillRoundRect(23, 118, 272, 94, 10, WHITE);
 
     tft.setTextSize(3);
     tft.setTextColor(BLACK);
-    tft.setCursor(50, 138);
-    tft.println("Nao Segura");
-    tft.setCursor(90, 168);
-    tft.println("Carga");
+    tft.setCursor(55, 155);
+    tft.println("Nao Funciona");
+    menu = "menu_NobreakDesliga";
+    menu_NobreakDesliga();
     break;
 
-  // Não liga e nem faz barulho
+  // Não liga
   case 2:
     tft.fillRoundRect(23, 238, 272, 94, 10, WHITE);
 
@@ -70,10 +67,11 @@ void btnNobreak(int caso)
     tft.setTextColor(BLACK);
     tft.setCursor(85, 270);
     tft.println("Nao liga");
-
+    menu = "menu_NobreakNaoLiga";
+    menu_NobreakNaoLiga();
     break;
 
-  // Liga mas não aparece a tela
+  // Manutencao Preventiva
   case 3:
     tft.fillRoundRect(23, 368, 272, 94, 10, WHITE);
 
@@ -83,7 +81,7 @@ void btnNobreak(int caso)
     tft.println("Manutencao");
     tft.setCursor(70, 420);
     tft.println("Preventiva");
-    telaCaixa(4);
+    tela_Chamado(4);
     break;
   }
 }

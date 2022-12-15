@@ -1,4 +1,4 @@
-void menuPerifericos()
+void menu_Perifericos()
 {
   tft.fillRoundRect(0, 70, 320, 410, 0, WHITE);
 
@@ -40,7 +40,7 @@ void menuPerifericos()
   tft.println("Outros");
 }
 
-void btnPerifericos(int caso)
+void btn_Perifericos(int caso)
 {
   switch (caso)
   {
@@ -53,8 +53,8 @@ void btnPerifericos(int caso)
     tft.setTextSize(3);
     tft.setTextColor(BLACK);
     tft.println("Mouses");
-    page = "menuMouse";
-    menuMouse();
+    menu = "menu_Mouse";
+    menu_Mouse();
     break;
 
   // Teclados
@@ -64,8 +64,8 @@ void btnPerifericos(int caso)
     tft.setTextColor(BLACK);
     tft.setCursor(85, 215);
     tft.println("Teclados");
-    page = "menuTeclado";
-    menuTeclado();
+    menu = "menu_Teclado";
+    menu_Teclado();
     break;
 
   // Fones de Ouvido
@@ -76,8 +76,8 @@ void btnPerifericos(int caso)
     tft.setTextColor(BLACK);
     tft.setCursor(75, 305);
     tft.println("Headphones");
-    page = "menuFone";
-    menuFone();
+    menu = "menu_Headset";
+    menu_Headset();
     break;
 
   // Outros
@@ -88,7 +88,7 @@ void btnPerifericos(int caso)
     tft.setTextColor(BLACK);
     tft.setCursor(100, 390);
     tft.println("Outros");
-    telaCaixa(3);
+    tela_Chamado(3);
     break;
   }
 }

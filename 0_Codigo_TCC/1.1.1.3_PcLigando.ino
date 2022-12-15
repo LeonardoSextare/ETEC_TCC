@@ -1,15 +1,15 @@
 // Desenha os Botões e Escrita
-void menu_ImpressoraLiga()
+void menu_PcLigando()
 {
   tft.fillRoundRect(0, 70, 320, 410, 0, WHITE);
 
-  // Sua Impressora:
+  // Monitor teste
 
   tft.fillRoundRect(0, 70, 320, 35, 0, BLACK);
   tft.setTextSize(3);
   tft.setTextColor(WHITE);
   tft.setCursor(10, 75);
-  tft.println("Usa Cartucho?:");
+  tft.println("Testou o monitor?:");
 
   // Sim
   tft.fillRoundRect(7, 115, 150, 50, 10, RED);
@@ -29,13 +29,13 @@ void menu_ImpressoraLiga()
   tft.setCursor(215, 128);
   tft.println("Nao");
 
-  // Está lento?
+  // Emite algum som?
 
   tft.fillRoundRect(0, 170, 320, 35, 0, BLACK);
   tft.setTextSize(3);
   tft.setTextColor(WHITE);
   tft.setCursor(10, 175);
-  tft.println("Enroscou folha?");
+  tft.println("Faz barulho?");
 
   // Sim
   tft.fillRoundRect(7, 215, 150, 50, 10, RED);
@@ -50,13 +50,13 @@ void menu_ImpressoraLiga()
   tft.setCursor(215, 228);
   tft.println("Nao");
 
-  // Desliga de forma inesperada
+  // Desliga depois de um tempo
 
   tft.fillRoundRect(0, 275, 320, 35, 0, BLACK);
   tft.setTextSize(3);
   tft.setTextColor(WHITE);
   tft.setCursor(10, 280);
-  tft.println("Puxa a folha?");
+  tft.println("Liga e Desliga?");
 
   // Sim
   tft.fillRoundRect(7, 320, 150, 50, 10, RED);
@@ -84,7 +84,7 @@ void menu_ImpressoraLiga()
 }
 
 // Efeito e função do clique dos botões
-void btn_ImpressoraLiga(int caso)
+void btn_PcLigando(int caso)
 {
   switch (caso)
   {
@@ -103,6 +103,7 @@ void btn_ImpressoraLiga(int caso)
     tft.setTextColor(WHITE);
     tft.setCursor(215, 128);
     tft.println("Nao");
+    
 
     break;
 
@@ -169,6 +170,7 @@ void btn_ImpressoraLiga(int caso)
     tft.setTextColor(WHITE);
     tft.setCursor(215, 335);
     tft.println("Nao");
+    
 
     break;
 
@@ -199,6 +201,7 @@ void btn_ImpressoraLiga(int caso)
     tft.setCursor(55, 430);
     tft.println("Assistencia");
     tela_Chamado(4);
+    // Enviar para o celular
 
     break;
 
@@ -206,8 +209,8 @@ void btn_ImpressoraLiga(int caso)
   case 8:
     tft.fillTriangle(10, 35, 50, 15, 50, 55, WHITE);
     tft.fillTriangle(15, 35, 47, 19, 47, 51, BLACK);
-    menu = "menu_Impressora";
-    menu_Impressora();
+    menu = "menu_AssistenciaPC";
+    menu_AssistenciaPC();
     break;
   }
 }

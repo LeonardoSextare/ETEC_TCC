@@ -1,15 +1,15 @@
 // Desenha os Botões e Escrita
-void menu_ImpressoraLiga()
+void menu_NobreakNaoLiga()
 {
   tft.fillRoundRect(0, 70, 320, 410, 0, WHITE);
 
-  // Sua Impressora:
+  // Sentiu cheiro de queimado?
 
   tft.fillRoundRect(0, 70, 320, 35, 0, BLACK);
-  tft.setTextSize(3);
+  tft.setTextSize(2);
   tft.setTextColor(WHITE);
-  tft.setCursor(10, 75);
-  tft.println("Usa Cartucho?:");
+  tft.setCursor(8, 80);
+  tft.println("Sentiu cheiro de queimado?");
 
   // Sim
   tft.fillRoundRect(7, 115, 150, 50, 10, RED);
@@ -29,18 +29,18 @@ void menu_ImpressoraLiga()
   tft.setCursor(215, 128);
   tft.println("Nao");
 
-  // Está lento?
+  // Conectou impressora nele?
 
   tft.fillRoundRect(0, 170, 320, 35, 0, BLACK);
-  tft.setTextSize(3);
+  tft.setTextSize(2);
   tft.setTextColor(WHITE);
-  tft.setCursor(10, 175);
-  tft.println("Enroscou folha?");
+  tft.setCursor(10, 178);
+  tft.println("Conectou Impressora nele?");
 
   // Sim
   tft.fillRoundRect(7, 215, 150, 50, 10, RED);
   tft.fillRoundRect(10, 218, 144, 44, 10, BLACK);
-
+  tft.setTextSize(3);
   tft.setCursor(55, 228);
   tft.println("Sim");
 
@@ -50,18 +50,18 @@ void menu_ImpressoraLiga()
   tft.setCursor(215, 228);
   tft.println("Nao");
 
-  // Desliga de forma inesperada
+  // Ele fica apitando?
 
   tft.fillRoundRect(0, 275, 320, 35, 0, BLACK);
-  tft.setTextSize(3);
+  tft.setTextSize(2);
   tft.setTextColor(WHITE);
-  tft.setCursor(10, 280);
-  tft.println("Puxa a folha?");
+  tft.setCursor(10, 285);
+  tft.println("Ele fica apitando?");
 
   // Sim
   tft.fillRoundRect(7, 320, 150, 50, 10, RED);
   tft.fillRoundRect(10, 323, 144, 44, 10, BLACK);
-
+  tft.setTextSize(3);
   tft.setCursor(55, 335);
   tft.println("Sim");
 
@@ -84,12 +84,12 @@ void menu_ImpressoraLiga()
 }
 
 // Efeito e função do clique dos botões
-void btn_ImpressoraLiga(int caso)
+void btn_NobreakNaoLiga(int caso)
 {
   switch (caso)
   {
 
-  // Inicia o Windows??
+  // Sentiu cheiro de queimado?
   case 1:
     tft.fillRoundRect(10, 118, 144, 44, 10, WHITE);
 
@@ -122,7 +122,7 @@ void btn_ImpressoraLiga(int caso)
 
     break;
 
-  // Esta lento?
+  // Conectou impressora nele?
   case 3:
     tft.fillRoundRect(10, 218, 144, 44, 10, WHITE);
 
@@ -155,7 +155,7 @@ void btn_ImpressoraLiga(int caso)
 
     break;
 
-  // Desliga Sozinho?
+  // Desliga de forma inesperada
   case 5:
     tft.fillRoundRect(10, 323, 144, 44, 10, WHITE);
 

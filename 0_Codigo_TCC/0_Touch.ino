@@ -1,947 +1,1314 @@
-/* Codigo das Paginas
-  1 = Menu Principal
-  2 = Assistencia Tecnica
-  3 = Computaodres e Notebooks
-  4 = Impressoras
-  5 = Produtos
-  6 = Periféricos
-  7 = Computadores e Notebooks
-  8 = Cabos
-*/
+// Reseta Parametros do Touch
+void resetXY()
+{
+    X = 1000;
+    Y = 1000;
+}
 
+// Funções do Botão Voltar
+void btnVoltar(int caso)
+{
+    /* Codigo das Paginas
+      1 = Menu Principal
+      2 = Assistencia Tecnica
+      3 = Computaodres e Notebooks
+      4 = Impressoras
+      5 = Produtos
+      6 = Periféricos
+      7 = Computadores e Notebooks
+      8 = Cabos
+    */
+
+    if (caso > 0)
+        Serial.println("Click: Voltar");
+
+    switch (caso)
+    {
+    // Desenha o Botão de Voltar
+    case 0:
+
+        tft.fillTriangle(10, 35, 50, 15, 50, 55, BLACK);
+        tft.fillTriangle(15, 35, 47, 19, 47, 51, WHITE);
+        break;
+
+    case 1:
+        menu_Index();
+        menu = "menu_Index";
+        break;
+
+    case 2:
+        menu_Assistencia();
+        menu = "menu_Assistencia";
+
+        break;
+
+    case 3:
+        menu_AssistenciaPC();
+        menu = "menu_AssistenciaPC";
+        break;
+
+    case 4:
+        menu_Impressora();
+        menu = "menu_Impressora";
+        break;
+
+    case 5:
+        menu_Produtos();
+        menu = "menu_Produtos";
+        break;
+
+    case 6:
+        menu_Perifericos();
+        menu = "menu_Perifericos";
+        break;
+
+    case 7:
+        menu_VendaPC();
+        menu = "menu_VendaPC";
+        break;
+
+    case 8:
+        menu_ListaCabo();
+        menu = "menu_ListaCabo";
+        break;
+
+    case 9:
+        menu_Nobreak();
+        menu = "menu_Nobreak";
+        break;
+    }
+}
+
+// Verifica as cordenadas do toque e chama a função correspondende ao menu
 void Touch()
 {
-  // Menu Principal
-  if (page == "menuPrincipal")
-  {
-    if (X < 264 && X > 15)
+
+    // Menu Principal
+    if (menu == "menu_Index")
     {
+        if (X > 10 && X < 300)
+        {
+            // Assistencia Tecnica
+            if (Y > 85 && Y < 190)
+            {
+                resetXY();
+                Serial.println("Click: Assistencia Tecnica");
+                btn_Index(1);
+            }
 
-      // Assistencia Tecnica
-      if (Y > 65 && Y < 135)
-      {
-        btnPrincipal(1);
-      }
+            // Produtos
+            if (Y > 214 && Y < 315)
+            {
+                resetXY();
+                Serial.println("Click: Produtos");
+                btn_Index(2);
+            }
 
-      // Produtos
-      if (Y > 150 && Y < 215)
-      {
-        btnPrincipal(2);
-      }
-
-      // Xerox
-      if (Y > 230 && Y < 300)
-      {
-        btnPrincipal(3);
-      }
-    }
-  }
-
-  // Menu Assistencia
-  else if (page == "menuAssistencia")
-  {
-
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
-    {
-      btnVoltar(1);
+            // Impressão
+            if (Y > 343 && Y < 450)
+            {
+                resetXY();
+                Serial.println("Click: Impressao");
+                btn_Index(3);
+            }
+        }
     }
 
-    if (X < 264 && X > 20)
+    // Menu Assistencia Tecnica
+    if (menu == "menu_Assistencia")
     {
+        // Botão	Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(1);
+        }
+        if (X > 10 && X < 300)
+        {
+            // Computadores e Notebooks
+            if (Y > 85 && Y < 171)
+            {
+                resetXY();
+                Serial.println("Click: Computadores e Notebooks");
+                btn_Assistencia(1);
+            }
 
-      // Computadores e Notebooks
-      if (Y > 65 && Y < 115)
-      {
-        btnAssistencia(1);
-      }
+            // Impressoras
+            if (Y > 180 && Y < 250)
+            {
+                resetXY();
+                Serial.println("Click: Impressoras");
+                btn_Assistencia(2);
+            }
 
-      // Impressoras
-      if (Y > 122 && Y < 175)
-      {
-        btnAssistencia(2);
-      }
+            // Nobreaks
+            if (Y > 265 && Y < 358)
+            {
+                resetXY();
+                Serial.println("Click: Nobreaks");
+                btn_Assistencia(3);
+            }
 
-      // Nobreaks
-      if (Y > 185 && Y < 235)
-      {
-        btnAssistencia(3);
-      }
-
-      // Outros Equipamentos
-      if (Y > 245 && Y < 300)
-      {
-        btnAssistencia(4);
-      }
-    }
-  }
-
-  // Menu Produtos
-  else if (page == "menuProdutos")
-  {
-
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
-    {
-      btnVoltar(1);
-    }
-
-    if (X < 264 && X > 20)
-    {
-
-      // Perifericos
-      if (Y > 64 && Y < 112)
-      {
-        btnProdutos(1);
-      }
-
-      // Computadores e Notebooks
-      if (Y > 123 && Y < 175)
-      {
-        btnProdutos(2);
-      }
-
-      // Cabos
-      if (Y > 183 && Y < 237)
-      {
-        btnProdutos(3);
-      }
-
-      // Outros
-      if (Y > 247 && Y < 300)
-      {
-        btnProdutos(4);
-      }
-    }
-  }
-
-  // Menu Periféricos
-  else if (page == "menuPerifericos")
-  {
-
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
-    {
-      btnVoltar(5);
+            // Outros Equipamentos
+            if (Y > 368 && Y < 448)
+            {
+                resetXY();
+                Serial.println("Click: Outros Equipamentos");
+                btn_Assistencia(4);
+            }
+        }
     }
 
-    if (X < 264 && X > 20)
+    // Menu Produtos
+    else if (menu == "menu_Produtos")
     {
 
-      // Mouses
-      if (Y > 64 && Y < 112)
-      {
-        btnPerifericos(1);
-      }
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(1);
+        }
 
-      // Teclados
-      if (Y > 123 && Y < 175)
-      {
-        btnPerifericos(2);
-      }
+        if (X > 10 && X < 300)
+        {
 
-      // Headphones
-      if (Y > 183 && Y < 237)
-      {
-        btnPerifericos(3);
-      }
+            // Perifericos
+            if (Y > 75 && Y < 156)
+            {
+                resetXY();
+                Serial.println("Click: Periféricos");
+                btn_Produtos(1);
+            }
 
-      // Outros
-      if (Y > 247 && Y < 300)
-      {
-        btnPerifericos(4);
-      }
-    }
-  }
+            // Computadores e Notebooks
+            if (Y > 170 && Y < 255)
+            {
+                resetXY();
+                Serial.println("Click: Computadores e Notebooks");
+                btn_Produtos(2);
+            }
 
-  // Menu Computadores e Notebooks
-  else if (page == "menuVendaPC")
-  {
+            // Cabos
+            if (Y > 270 && Y < 350)
+            {
+                resetXY();
+                Serial.println("Click: Cabos");
+                btn_Produtos(3);
+            }
 
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
-    {
-      btnVoltar(5);
-    }
-
-    if (X < 260 && X > 20)
-    {
-
-      // Desktop
-      if (Y > 64 && Y < 140)
-      {
-        btnVendaPC(1);
-      }
-
-      // Notebooks
-      if (Y > 148 && Y < 220)
-      {
-        btnVendaPC(2);
-      }
-
-      // Monte seu Pc
-      if (Y > 235 && Y < 300)
-      {
-        btnVendaPC(3);
-      }
-    }
-  }
-
-  // Menu Computadores e Notebooks
-  else if (page == "menuMouse")
-  {
-
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
-    {
-      btnVoltar(6);
+            // Outros
+            if (Y > 360 && Y < 430)
+            {
+                resetXY();
+                Serial.println("Click: Outros");
+                btn_Produtos(4);
+            }
+        }
     }
 
-    if (X < 260 && X > 20)
+    // Menu Periféricos
+    else if (menu == "menu_Perifericos")
     {
 
-      // Desktop
-      if (Y > 64 && Y < 140)
-      {
-        btnMouse(1);
-      }
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(5);
+        }
 
-      // Notebooks
-      if (Y > 148 && Y < 220)
-      {
-        btnMouse(2);
-      }
+        if (X > 10 && X < 300)
+        {
 
-      // Monte seu Pc
-      if (Y > 235 && Y < 300)
-      {
-        btnMouse(3);
-      }
-    }
-  }
+            // Mouses
+            if (Y > 78 && Y < 160)
+            {
+                resetXY();
+                Serial.println("Click: Mouses");
+                btn_Perifericos(1);
+            }
 
-  // Menu Venda Cabos
-  else if (page == "menuVendaCabo")
-  {
+            // Teclados
+            if (Y > 175 && Y < 250)
+            {
+                resetXY();
+                Serial.println("Click: Teclados");
+                btn_Perifericos(2);
+            }
 
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
-    {
-      btnVoltar(8);
-    }
+            // Headphones
+            if (Y > 270 && Y < 350)
+            {
+                resetXY();
+                Serial.println("Click: Headphones");
+                btn_Perifericos(3);
+            }
 
-    if (X < 274 && X > 16)
-    {
-
-      // Mouse 1
-      if (Y > 64 && Y < 136)
-      {
-        btnVendaCabo(1);
-      }
-
-      // Mouse 2
-      if (Y > 151 && Y < 220)
-      {
-        btnVendaCabo(2);
-      }
-
-      // Mouse 3
-      if (Y > 230 && Y < 306)
-      {
-        btnVendaCabo(3);
-      }
-    }
-  }
-
-  // Adaptadores
-  else if (page == "menuAdaptadores")
-  {
-
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
-    {
-      btnVoltar(8);
+            // Outros
+            if (Y > 365 && Y < 445)
+            {
+                resetXY();
+                Serial.println("Click: Outros");
+                btn_Perifericos(4);
+            }
+        }
     }
 
-    if (X < 260 && X > 20)
+    // Menu Computadores e Notebooks
+    else if (menu == "menu_VendaPC")
     {
 
-      // Adaptador 1
-      if (Y > 64 && Y < 140)
-      {
-        btnAdaptadores(1);
-      }
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(5);
+        }
 
-      // Adaptador 2
-      if (Y > 148 && Y < 220)
-      {
-        btnAdaptadores(2);
-      }
+        if (X > 10 && X < 300)
+        {
 
-      // Adaptador 3
-      if (Y > 235 && Y < 300)
-      {
-        btnAdaptadores(3);
-      }
-    }
-  }
+            // Computadores
+            if (Y > 78 && Y < 160)
+            {
+                resetXY();
+                Serial.println("Click: Computadores");
+                btn_VendaPC(1);
+            }
 
-  // Menu Cabos
-  else if (page == "menuCabo")
-  {
+            // Notebooks
+            if (Y > 175 && Y < 250)
+            {
+                resetXY();
+                Serial.println("Click: Notebooks");
+                btn_VendaPC(2);
+            }
 
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
-    {
-      btnVoltar(5);
-    }
-
-    if (X < 274 && X > 16)
-    {
-
-      // Mouse 1
-      if (Y > 64 && Y < 136)
-      {
-        btnCabo(1);
-      }
-
-      // Mouse 2
-      if (Y > 151 && Y < 220)
-      {
-        btnCabo(2);
-      }
-
-      // Mouse 3
-      if (Y > 230 && Y < 306)
-      {
-        btnCabo(3);
-      }
-    }
-  }
-
-  // Menu Computadores
-  else if (page == "menuComputadores")
-  {
-
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
-    {
-      btnVoltar(7);
+            // Monte seu computador
+            if (Y > 270 && Y < 350)
+            {
+                resetXY();
+                Serial.println("Click: Monte seu Computador");
+                btn_VendaPC(3);
+            }
+        }
     }
 
-    if (X < 274 && X > 16)
+    // Menu Computadores e Notebooks
+    else if (menu == "menu_Mouse")
     {
 
-      // PC 1
-      if (Y > 64 && Y < 136)
-      {
-        btnComputadores(1);
-      }
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(6);
+        }
 
-      // PC 2
-      if (Y > 151 && Y < 220)
-      {
-        btnComputadores(2);
-      }
+        if (X > 147 && X < 305)
+        {
 
-      // PC 3
-      if (Y > 230 && Y < 306)
-      {
-        btnComputadores(3);
-      }
-    }
-  }
+            // Mouse 1
+            if (Y > 71 && Y < 190)
+            {
+                resetXY();
+                Serial.println("Click: Mouse 1");
+                btn_Mouse(1);
+            }
 
-  // Menu Notebooks
-  else if (page == "menuNotebook")
-  {
+            // Mouse 2
+            if (Y > 200 && Y < 325)
+            {
+                resetXY();
+                Serial.println("Click: Mouse 2");
+                btn_Mouse(2);
+            }
 
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
-    {
-      btnVoltar(7);
-    }
-
-    if (X < 274 && X > 16)
-    {
-
-      // PC 1
-      if (Y > 64 && Y < 136)
-      {
-        btnNotebook(1);
-      }
-
-      // PC 2
-      if (Y > 151 && Y < 220)
-      {
-        btnNotebook(2);
-      }
-
-      // PC 3
-      if (Y > 230 && Y < 306)
-      {
-        btnNotebook(3);
-      }
-    }
-  }
-
-  // Menu Teclado
-  else if (page == "menuTeclado")
-  {
-
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
-    {
-      btnVoltar(6);
+            // Mouse 3
+            if (Y > 340 && Y < 450)
+            {
+                resetXY();
+                Serial.println("Click: Mouse 3");
+                btn_Mouse(3);
+            }
+        }
     }
 
-    if (X < 274 && X > 16)
+    // Menu Venda Cabos
+    else if (menu == "menu_VendaCabo")
     {
 
-      // Mouse 1
-      if (Y > 64 && Y < 136)
-      {
-        btnTeclado(1);
-      }
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(8);
+        }
 
-      // Mouse 2
-      if (Y > 151 && Y < 220)
-      {
-        btnTeclado(2);
-      }
+        if (X > 147 && X < 305)
+        {
 
-      // Mouse 3
-      if (Y > 230 && Y < 306)
-      {
-        btnTeclado(3);
-      }
-    }
-  }
+            // Cabo 1
+            if (Y > 71 && Y < 190)
+            {
+                resetXY();
+                Serial.println("Click: Cabo 1");
+                btn_VendaCabo(1);
+            }
 
-  // Menu Headphones
-  else if (page == "menuFone")
-  {
+            // Cabo 2
+            if (Y > 200 && Y < 325)
+            {
+                resetXY();
+                Serial.println("Click: Cabo 2");
+                btn_VendaCabo(2);
+            }
 
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
-    {
-      btnVoltar(6);
-    }
-
-    if (X < 274 && X > 16)
-    {
-
-      // Mouse 1
-      if (Y > 64 && Y < 136)
-      {
-        btnFone(1);
-      }
-
-      // Mouse 2
-      if (Y > 151 && Y < 220)
-      {
-        btnFone(2);
-      }
-
-      // Mouse 3
-      if (Y > 230 && Y < 306)
-      {
-        btnFone(3);
-      }
-    }
-  }
-
-  // Menu Xerox
-  else if (page == "menuXerox")
-  {
-
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
-    {
-      btnVoltar(1);
+            // Cabo 3
+            if (Y > 340 && Y < 450)
+            {
+                resetXY();
+                Serial.println("Click: Cabo 3");
+                btn_VendaCabo(3);
+            }
+        }
     }
 
-    if (X < 264 && X > 20)
+    // Adaptadores
+    else if (menu == "menu_VendaAdaptador")
     {
 
-      // Documentos
-      if (Y > 64 && Y < 112)
-      {
-        btnXerox(1);
-      }
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(8);
+        }
 
-      // Boletos
-      if (Y > 123 && Y < 175)
-      {
-        btnXerox(2);
-      }
+        if (X > 147 && X < 305)
+        {
 
-      // Fotos
-      if (Y > 183 && Y < 237)
-      {
-        btnXerox(3);
-      }
+            // Adaptador 1
+            if (Y > 71 && Y < 190)
+            {
+                resetXY();
+                Serial.println("Click: Adaptador 1");
+                btn_VendaAdaptador(1);
+            }
 
-      // Outros
-      if (Y > 247 && Y < 300)
-      {
-        btnXerox(4);
-      }
+            // Adaptador 2
+            if (Y > 200 && Y < 325)
+            {
+                resetXY();
+                Serial.println("Click: Adaptador 2");
+                btn_VendaAdaptador(2);
+            }
+
+            // Adaptador 3
+            if (Y > 340 && Y < 450)
+            {
+                resetXY();
+                Serial.println("Click: Adaptador 3");
+                btn_VendaAdaptador(3);
+            }
+        }
     }
-  }
 
-  // Menu PC
-  else if (page == "menuPC")
-  {
-
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
+    // Menu Cabos
+    else if (menu == "menu_ListaCabo")
     {
-      btnVoltar(2);
+
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(5);
+        }
+
+        if (X > 10 && X < 300)
+        {
+
+            // Cabos
+            if (Y > 82 && Y < 190)
+            {
+                resetXY();
+                Serial.println("Click: Cabos");
+                btn_ListaCabo(1);
+            }
+
+            // Adaptadores
+            if (Y > 214 && Y < 316)
+            {
+                resetXY();
+                Serial.println("Click: Adaptadores");
+                btn_ListaCabo(2);
+            }
+
+            // Outros
+            if (Y > 338 && Y < 443)
+            {
+                resetXY();
+                Serial.println("Click: Outros");
+                btn_ListaCabo(3);
+            }
+        }
     }
 
-    if (X < 264 && X > 20)
+    // Menu Computadores
+    else if (menu == "menu_VendaComputadores")
     {
-      // Está ligando normalmente
-      if (Y > 75 && Y < 142)
-      {
-        btnPC(1);
-      }
 
-      // Não liga e nem faz barulho
-      if (Y > 160 && Y < 225)
-      {
-        btnPC(2);
-      }
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(7);
+        }
 
-      // Liga mas não aparece a tela
-      if (Y > 247 && Y < 311)
-      {
-        btnPC(3);
-      }
+        if (X > 147 && X < 305)
+        {
+
+            // Computador 1
+            if (Y > 71 && Y < 190)
+            {
+                resetXY();
+                Serial.println("Click: Computador 1");
+                btn_VendaComputadores(1);
+            }
+
+            // Computador 2
+            if (Y > 200 && Y < 325)
+            {
+                resetXY();
+                Serial.println("Click: Computador 2");
+                btn_VendaComputadores(2);
+            }
+
+            // Computador 3
+            if (Y > 340 && Y < 450)
+            {
+                resetXY();
+                Serial.println("Click: Computador 3");
+                btn_VendaComputadores(3);
+            }
+        }
     }
-  }
 
-  // Menu PC Liga
-  else if (page == "menuPcLiga")
-  {
-
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
+    // Menu Notebooks
+    else if (menu == "menu_VendaNotebook")
     {
-      btnVoltar(3);
+
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(7);
+        }
+
+        if (X > 147 && X < 305)
+        {
+
+            // Notebook 1
+            if (Y > 71 && Y < 190)
+            {
+                resetXY();
+                Serial.println("Click: Notebook 1");
+                btn_VendaNotebook(1);
+            }
+
+            // Notebook 2
+            if (Y > 200 && Y < 325)
+            {
+                resetXY();
+                Serial.println("Click: Notebook 2");
+                btn_VendaNotebook(2);
+            }
+
+            // Notebook 3
+            if (Y > 340 && Y < 450)
+            {
+                resetXY();
+                Serial.println("Click: Notebook 3");
+                btn_VendaNotebook(3);
+            }
+        }
     }
 
-    // Solicitar Assistencia
-    if ((X < 260 && X > 20) & (Y > 262 && Y < 310))
+    // Menu Teclado
+    else if (menu == "menu_Teclado")
     {
-      btnPcLiga(7);
+
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(6);
+        }
+
+        if (X > 147 && X < 305)
+        {
+
+            // Teclado 1
+            if (Y > 71 && Y < 190)
+            {
+                resetXY();
+                Serial.println("Click: Teclado 1");
+                btn_Teclado(1);
+            }
+
+            // Teclado 2
+            if (Y > 200 && Y < 325)
+            {
+                resetXY();
+                Serial.println("Click: Teclado 2");
+                btn_Teclado(2);
+            }
+
+            // Teclado 3
+            if (Y > 340 && Y < 450)
+            {
+                resetXY();
+                Serial.println("Click: Teclado 3");
+                btn_Teclado(3);
+            }
+        }
     }
 
-    // X Sim
-    if (X < 270 && X > 146)
+    // Menu Headphones
+    else if (menu == "menu_Headset")
     {
-      // Sim 1
-      if (Y > 75 && Y < 110)
-      {
-        btnPcLiga(1);
-      }
 
-      // Sim 2
-      if (Y > 144 && Y < 180)
-      {
-        btnPcLiga(3);
-      }
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(6);
+        }
 
-      // Sim 3
-      if (Y > 215 && Y < 251)
-      {
-        btnPcLiga(5);
-      }
+        if (X > 147 && X < 305)
+        {
+
+            // Headset 1
+            if (Y > 71 && Y < 190)
+            {
+                resetXY();
+                Serial.println("Click: Headset 1");
+                btn_Headset(1);
+            }
+
+            // Headset 2
+            if (Y > 200 && Y < 325)
+            {
+                resetXY();
+                Serial.println("Click: Headset 2");
+                btn_Headset(2);
+            }
+
+            // Headset 3
+            if (Y > 340 && Y < 450)
+            {
+                resetXY();
+                Serial.println("Click: Headset 3");
+                btn_Headset(3);
+            }
+        }
     }
 
-    // X Não
-    if (X < 134 && X > 0)
+    // Menu Impressao
+    else if (menu == "menu_Impressao")
     {
-      // Não 1
-      if (Y > 75 && Y < 110)
-      {
-        btnPcLiga(2);
-      }
 
-      // Não 2
-      if (Y > 144 && Y < 180)
-      {
-        btnPcLiga(4);
-      }
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(1);
+        }
 
-      // Não 3
-      if (Y > 215 && Y < 251)
-      {
-        btnPcLiga(6);
-      }
+        if (X < 264 && X > 20)
+        {
+
+            // Documentos
+            if (Y > 74 && Y < 152)
+            {
+                resetXY();
+                Serial.println("Click: Documentos");
+                btn_Impressao(1);
+            }
+
+            // Boletos
+            if (Y > 170 && Y < 255)
+            {
+                resetXY();
+                Serial.println("Click: Boletos");
+                btn_Impressao(2);
+            }
+
+            // Fotos
+            if (Y > 260 && Y < 347)
+            {
+                resetXY();
+                Serial.println("Click: Fotos");
+                btn_Impressao(3);
+            }
+
+            // Outros
+            if (Y > 366 && Y < 440)
+            {
+                resetXY();
+                Serial.println("Click: Outros");
+                btn_Impressao(4);
+            }
+        }
     }
-  }
 
-  // Menu PC Liga TEla
-  else if (page == "menuPcLigaTela")
-  {
-
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
+    // Menu PC
+    else if (menu == "menu_AssistenciaPC")
     {
-      btnVoltar(3);
-      ;
+
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(2);
+        }
+
+        if (X > 10 && X < 300)
+        {
+            // Está ligando normalmente
+            if (Y > 100 && Y < 200)
+            {
+                resetXY();
+                Serial.println("Click: Esta ligando Normalmente");
+                btn_assistenciaPC(1);
+            }
+
+            // Não liga e nem faz barulho
+            if (Y > 224 && Y < 327)
+            {
+                resetXY();
+                Serial.println("Click: Não liga e nem faz barulho");
+                btn_assistenciaPC(2);
+            }
+
+            // Liga mas não aparece a tela
+            if (Y > 362 && Y < 466)
+            {
+                resetXY();
+                Serial.println("Click: Liga mas não aparece a tela");
+                btn_assistenciaPC(3);
+            }
+        }
     }
 
-    // Solicitar Assistencia
-    if ((X < 260 && X > 20) & (Y > 262 && Y < 310))
+    // Menu PC Liga
+    else if (menu == "menu_PcFunciona")
     {
-      btnPcLigaTela(7);
+
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(3);
+        }
+
+        // Solicitar Assistencia
+        if ((X > 10 && X < 300) & (Y > 384 && Y < 463))
+        {
+            resetXY();
+            Serial.println("Click: Solicitar Assistencia");
+            btn_PcFunciona(7);
+        }
+
+        // Sim e Não
+        if (X > -3 && X < 153)
+        {
+            // Sim 1
+            if (Y > 98 && Y < 150)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_PcFunciona(1);
+            }
+
+            // Sim 2
+            if (Y > 200 && Y < 252)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_PcFunciona(3);
+            }
+
+            // Sim 3
+            if (Y > 315 && Y < 358)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_PcFunciona(5);
+            }
+        }
+
+        // X Não
+        if (X > 160 && X < 312)
+        {
+            // Não 1
+            if (Y > 98 && Y < 150)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_PcFunciona(2);
+            }
+
+            // Não 2
+            if (Y > 200 && Y < 252)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_PcFunciona(4);
+            }
+
+            // Não 3
+            if (Y > 315 && Y < 358)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_PcFunciona(6);
+            }
+        }
     }
 
-    // X Sim
-    if (X < 270 && X > 146)
+    // Menu PC Liga TEla
+    else if (menu == "menu_PcLigando")
     {
-      // Sim 1
-      if (Y > 75 && Y < 110)
-      {
-        btnPcLigaTela(1);
-      }
 
-      // Sim 2
-      if (Y > 144 && Y < 180)
-      {
-        btnPcLigaTela(3);
-      }
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(3);
+        }
 
-      // Sim 3
-      if (Y > 215 && Y < 251)
-      {
-        btnPcLigaTela(5);
-      }
+        // Solicitar Assistencia
+        if ((X > 10 && X < 300) & (Y > 384 && Y < 463))
+        {
+            resetXY();
+            Serial.println("Click: Solicitar Assistencia");
+            btn_PcLigando(7);
+        }
+
+        // Sim e Não
+        if (X > -3 && X < 153)
+        {
+            // Sim 1
+            if (Y > 98 && Y < 150)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_PcLigando(1);
+            }
+
+            // Sim 2
+            if (Y > 200 && Y < 252)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_PcLigando(3);
+            }
+
+            // Sim 3
+            if (Y > 315 && Y < 358)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_PcLigando(5);
+            }
+        }
+
+        // X Não
+        if (X > 160 && X < 312)
+        {
+            // Não 1
+            if (Y > 98 && Y < 150)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_PcLigando(2);
+            }
+
+            // Não 2
+            if (Y > 200 && Y < 252)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_PcLigando(4);
+            }
+
+            // Não 3
+            if (Y > 315 && Y < 358)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_PcLigando(6);
+            }
+        }
     }
 
-    // X Não
-    if (X < 134 && X > 0)
+    // Menu PC Liga
+    else if (menu == "menu_PcNaoLigaBarulho")
     {
-      // Não 1
-      if (Y > 75 && Y < 110)
-      {
-        btnPcLigaTela(2);
-      }
 
-      // Não 2
-      if (Y > 144 && Y < 180)
-      {
-        btnPcLigaTela(4);
-      }
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(3);
+        }
 
-      // Não 3
-      if (Y > 215 && Y < 251)
-      {
-        btnPcLigaTela(6);
-      }
+        // Solicitar Assistencia
+        if ((X > 10 && X < 300) & (Y > 384 && Y < 463))
+        {
+            resetXY();
+            Serial.println("Click: Solicitar Assistencia");
+            btn_PcNaoLigaBarulho(7);
+        }
+
+        // Sim e Não
+        if (X > -3 && X < 153)
+        {
+            // Sim 1
+            if (Y > 98 && Y < 150)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_PcNaoLigaBarulho(1);
+            }
+
+            // Sim 2
+            if (Y > 200 && Y < 252)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_PcNaoLigaBarulho(3);
+            }
+
+            // Sim 3
+            if (Y > 315 && Y < 358)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_PcNaoLigaBarulho(5);
+            }
+        }
+
+        // X Não
+        if (X > 160 && X < 312)
+        {
+            // Não 1
+            if (Y > 98 && Y < 150)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_PcNaoLigaBarulho(2);
+            }
+
+            // Não 2
+            if (Y > 200 && Y < 252)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_PcNaoLigaBarulho(4);
+            }
+
+            // Não 3
+            if (Y > 315 && Y < 358)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_PcNaoLigaBarulho(6);
+            }
+        }
     }
-  }
 
-  // Menu PC Liga
-  else if (page == "menuPcLigaBarulho")
-  {
-
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
+    // Menu Impressora
+    else if (menu == "menu_Impressora")
     {
-      btnVoltar(3);
+
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(2);
+        }
+
+        if (X > 10 && X < 300)
+        {
+            // Liga mais não imprime
+            if (Y > 97 && Y < 197)
+            {
+                resetXY();
+                Serial.println("Click: Liga mais não imprime");
+                btn_Impressora(1);
+            }
+
+            // Não liga
+            if (Y > 225 && Y < 325)
+            {
+                resetXY();
+                Serial.println("Click: Não liga");
+                btn_Impressora(2);
+            }
+
+            // Manutenção Preventiva
+            if (Y > 363 && Y < 463)
+            {
+                resetXY();
+                Serial.println("Click: Manutenção Preventiva");
+                btn_Impressora(3);
+            }
+        }
     }
 
-    // Solicitar Assistencia
-    if ((X < 260 && X > 20) & (Y > 262 && Y < 310))
+    // Menu Impressora Liga
+    else if (menu == "menu_ImpressoraLiga")
     {
-      btnPcLigaTela(7);
+
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(4);
+        }
+
+        // Solicitar Assistencia
+        if ((X > 10 && X < 300) & (Y > 384 && Y < 463))
+        {
+            resetXY();
+            Serial.println("Click: Solicitar Assistencia");
+            btn_ImpressoraLiga(7);
+        }
+
+        // Sim e Não
+        if (X > -3 && X < 153)
+        {
+            // Sim 1
+            if (Y > 98 && Y < 150)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_ImpressoraLiga(1);
+            }
+
+            // Sim 2
+            if (Y > 200 && Y < 252)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_ImpressoraLiga(3);
+            }
+
+            // Sim 3
+            if (Y > 315 && Y < 358)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_ImpressoraLiga(5);
+            }
+        }
+
+        // X Não
+        if (X > 160 && X < 312)
+        {
+            // Não 1
+            if (Y > 98 && Y < 150)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_ImpressoraLiga(2);
+            }
+
+            // Não 2
+            if (Y > 200 && Y < 252)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_ImpressoraLiga(4);
+            }
+
+            // Não 3
+            if (Y > 315 && Y < 358)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_ImpressoraLiga(6);
+            }
+        }
     }
 
-    // X Sim
-    if (X < 270 && X > 146)
+    // Menu Impressora não Liga
+    else if (menu == "menu_ImpressoraNLiga")
     {
-      // Sim 1
-      if (Y > 75 && Y < 110)
-      {
-        btnPcLigaBarulho(1);
-      }
 
-      // Sim 2
-      if (Y > 144 && Y < 180)
-      {
-        btnPcLigaBarulho(3);
-      }
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(4);
+        }
 
-      // Sim 3
-      if (Y > 215 && Y < 251)
-      {
-        btnPcLigaBarulho(5);
-      }
+        // Solicitar Assistencia
+        if ((X > 10 && X < 300) & (Y > 384 && Y < 463))
+        {
+            resetXY();
+            Serial.println("Click: Solicitar Assistencia");
+            btn_ImpressoraNLiga(7);
+        }
+
+        // Sim e Não
+        if (X > -3 && X < 153)
+        {
+            // Sim 1
+            if (Y > 98 && Y < 150)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_ImpressoraNLiga(1);
+            }
+
+            // Sim 2
+            if (Y > 200 && Y < 252)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_ImpressoraNLiga(3);
+            }
+
+            // Sim 3
+            if (Y > 315 && Y < 358)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_ImpressoraNLiga(5);
+            }
+        }
+
+        // X Não
+        if (X > 160 && X < 312)
+        {
+            // Não 1
+            if (Y > 98 && Y < 150)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_ImpressoraNLiga(2);
+            }
+
+            // Não 2
+            if (Y > 200 && Y < 252)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_ImpressoraNLiga(4);
+            }
+
+            // Não 3
+            if (Y > 315 && Y < 358)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_ImpressoraNLiga(6);
+            }
+        }
     }
 
-    // X Não
-    if (X < 134 && X > 0)
+    // Menu Nobreak
+    else if (menu == "menu_Nobreak")
     {
-      // Não 1
-      if (Y > 75 && Y < 110)
-      {
-        btnPcLigaBarulho(2);
-      }
 
-      // Não 2
-      if (Y > 144 && Y < 180)
-      {
-        btnPcLigaBarulho(4);
-      }
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(2);
+        }
 
-      // Não 3
-      if (Y > 215 && Y < 251)
-      {
-        btnPcLigaBarulho(6);
-      }
+        if (X > 10 && X < 300)
+        {
+            //  Não segura carga
+            if (Y > 100 && Y < 200)
+            {
+                resetXY();
+                Serial.println("Click: Não segura carga");
+                btn_Nobreak(1);
+            }
+
+            // Não Liga
+            if (Y > 225 && Y < 328)
+            {
+                resetXY();
+                Serial.println("Click: Não Liga");
+                btn_Nobreak(2);
+            }
+
+            // Manutenção Preventiva
+            if (Y > 364 && Y < 465)
+            {
+                resetXY();
+                Serial.println("Click: Manutenção Preventiva");
+                btn_Nobreak(3);
+            }
+        }
     }
-  }
 
-  // Menu Impressora
-  else if (page == "menuImpressora")
-  {
-
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
+    // Menu Nobreak Desliga
+    else if (menu == "menu_NobreakDesliga")
     {
-      btnVoltar(2);
+
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(9);
+        }
+
+        // Solicitar Assistencia
+        if ((X > 10 && X < 300) & (Y > 384 && Y < 463))
+        {
+            resetXY();
+            Serial.println("Click: Solicitar Assistencia");
+            btn_NobreakDesliga(7);
+        }
+
+        // Sim e Não
+        if (X > -3 && X < 153)
+        {
+            // Sim 1
+            if (Y > 98 && Y < 150)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_NobreakDesliga(1);
+            }
+
+            // Sim 2
+            if (Y > 200 && Y < 252)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_NobreakDesliga(3);
+            }
+
+            // Sim 3
+            if (Y > 315 && Y < 358)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_NobreakDesliga(5);
+            }
+        }
+
+        // X Não
+        if (X > 160 && X < 312)
+        {
+            // Não 1
+            if (Y > 98 && Y < 150)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_NobreakDesliga(2);
+            }
+
+            // Não 2
+            if (Y > 200 && Y < 252)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_NobreakDesliga(4);
+            }
+
+            // Não 3
+            if (Y > 315 && Y < 358)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_NobreakDesliga(6);
+            }
+        }
     }
 
-    if (X < 264 && X > 20)
+    // Menu Nobreak Nao Liga
+    else if (menu == "menu_NobreakNaoLiga")
     {
-      // Está ligando normalmente
-      if (Y > 75 && Y < 142)
-      {
-        btnImpressora(1);
-      }
 
-      // Não liga e nem faz barulho
-      if (Y > 160 && Y < 225)
-      {
-        btnImpressora(2);
-      }
+        // Botão Voltar
+        if ((X > -10 && X < 40) && (Y > -18 && Y < 33))
+        {
+            resetXY();
+            btnVoltar(9);
+        }
 
-      // Liga mas não aparece a tela
-      if (Y > 247 && Y < 311)
-      {
-        btnImpressora(3);
-      }
+        // Solicitar Assistencia
+        if ((X > 10 && X < 300) & (Y > 384 && Y < 463))
+        {
+            resetXY();
+            Serial.println("Click: Solicitar Assistencia");
+            btn_NobreakNaoLiga(7);
+        }
+
+        // Sim e Não
+        if (X > -3 && X < 153)
+        {
+            // Sim 1
+            if (Y > 98 && Y < 150)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_NobreakNaoLiga(1);
+            }
+
+            // Sim 2
+            if (Y > 200 && Y < 252)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_NobreakNaoLiga(3);
+            }
+
+            // Sim 3
+            if (Y > 315 && Y < 358)
+            {
+                resetXY();
+                Serial.println("Click: Sim");
+                btn_NobreakNaoLiga(5);
+            }
+        }
+
+        // X Não
+        if (X > 160 && X < 312)
+        {
+            // Não 1
+            if (Y > 98 && Y < 150)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_NobreakNaoLiga(2);
+            }
+
+            // Não 2
+            if (Y > 200 && Y < 252)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_NobreakNaoLiga(4);
+            }
+
+            // Não 3
+            if (Y > 315 && Y < 358)
+            {
+                resetXY();
+                Serial.println("Click: Não");
+                btn_NobreakNaoLiga(6);
+            }
+        }
     }
-  }
-
-  // Menu Impressora Liga
-  else if (page == "menuImpressoraLiga")
-  {
-
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
-    {
-      btnVoltar(4);
-    }
-
-    // Solicitar Assistencia
-    if ((X < 260 && X > 20) & (Y > 262 && Y < 310))
-    {
-      btnImpressoraLiga(7);
-    }
-
-    // X Sim
-    if (X < 270 && X > 146)
-    {
-      // Sim 1
-      if (Y > 75 && Y < 110)
-      {
-        btnImpressoraLiga(1);
-      }
-
-      // Sim 2
-      if (Y > 144 && Y < 180)
-      {
-        btnImpressoraLiga(3);
-      }
-
-      // Sim 3
-      if (Y > 215 && Y < 251)
-      {
-        btnImpressoraLiga(5);
-      }
-    }
-
-    // X Não
-    if (X < 134 && X > 0)
-    {
-      // Não 1
-      if (Y > 75 && Y < 110)
-      {
-        btnImpressoraLiga(2);
-      }
-
-      // Não 2
-      if (Y > 144 && Y < 180)
-      {
-        btnImpressoraLiga(4);
-      }
-
-      // Não 3
-      if (Y > 215 && Y < 251)
-      {
-        btnImpressoraLiga(6);
-      }
-    }
-  }
-
-  // Menu Impressora não Liga
-  else if (page == "menuImpressoraNLiga")
-  {
-
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
-    {
-      btnVoltar(4);
-    }
-
-    // Solicitar Assistencia
-    if ((X < 260 && X > 20) & (Y > 262 && Y < 310))
-    {
-      btnImpressoraNLiga(7);
-    }
-
-    // X Sim
-    if (X < 270 && X > 146)
-    {
-      // Sim 1
-      if (Y > 75 && Y < 110)
-      {
-        btnImpressoraNLiga(1);
-      }
-
-      // Sim 2
-      if (Y > 144 && Y < 180)
-      {
-        btnImpressoraNLiga(3);
-      }
-
-      // Sim 3
-      if (Y > 215 && Y < 251)
-      {
-        btnImpressoraNLiga(5);
-      }
-    }
-
-    // X Não
-    if (X < 134 && X > 0)
-    {
-      // Não 1
-      if (Y > 75 && Y < 110)
-      {
-        btnImpressoraNLiga(2);
-      }
-
-      // Não 2
-      if (Y > 144 && Y < 180)
-      {
-        btnImpressoraNLiga(4);
-      }
-
-      // Não 3
-      if (Y > 215 && Y < 251)
-      {
-        btnImpressoraNLiga(6);
-      }
-    }
-  }
-
-  // Menu Nobreak
-  else if (page == "menuNobreak")
-  {
-
-    // Botão Voltar
-    if ((X < 270 && X > 240) & (Y > 7 && Y < 40))
-    {
-      btnVoltar(2);
-    }
-
-    if (X < 264 && X > 20)
-    {
-      // Está ligando normalmente
-      if (Y > 75 && Y < 142)
-      {
-        btnNobreak(1);
-      }
-
-      // Não liga e nem faz barulho
-      if (Y > 160 && Y < 225)
-      {
-        btnNobreak(2);
-      }
-
-      // Liga mas não aparece a tela
-      if (Y > 247 && Y < 311)
-      {
-        btnNobreak(3);
-      }
-    }
-  }
-}
-// Funções do Botão Voltar
-void btnVoltar(int pagina)
-{
-  switch (pagina)
-  {
-
-  case 0:
-    tft.fillTriangle(10, 35, 50, 15, 50, 55, BLACK);
-    tft.fillTriangle(15, 35, 47, 19, 47, 51, WHITE);
-    break;
-
-  case 1:
-    menuPrincipal();
-    page = "menuPrincipal";
-    break;
-
-  case 2:
-    menuAssistencia();
-    page = "menuAssistencia";
-
-    break;
-
-  case 3:
-    menuPC();
-    page = "menuPC";
-    break;
-
-  case 4:
-    menuImpressora();
-    page = "menuImpressora";
-    break;
-
-  case 5:
-    menuProdutos();
-    page = "menuProdutos";
-    break;
-
-  case 6:
-    menuPerifericos();
-    page = "menuPerifericos";
-    break;
-
-  case 7:
-    menuVendaPC();
-    page = "menuVendaPC";
-    break;
-
-  case 8:
-    menuCabo();
-    page = "menuCabo";
-    break;
-  }
 }
